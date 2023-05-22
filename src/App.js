@@ -1,25 +1,55 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class TodoForm extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      value: "",
+      items: [],
+    };
+  }
+
+  onChangeHandler = (e) => {
+    this.setState({
+      value: e.target.value,
+    });
+  };
+
+  addTodoHandler = (e) => {
+    e.preventDefault();
+    this.setState({
+      value: "",
+      items: [...this.state.items, this.state.value],
+    });
+  };
+
+  render() {
+    return (
+      <div className="container">
+        <h1 className="todo-text">Todo</h1>
+        <form className="form">
+          <input value={this.state.value} onChange={this.onChangeHandler} />
+          <button className="btn-add" onClick={this.addTodoHandler}>
+            ADD
+          </button>
+        </form>
+        {/* <hr></hr> */}
+        <TodoList items={this.state.items} />
+      </div>
+    );
+  }
 }
-
-export default App;
+class TodoList extends React.Component {
+  render() {
+    return (
+      <div>
+        <ul className="ul-list">
+          {this.props.items.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
+}
+export default TodoForm;
